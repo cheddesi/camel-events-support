@@ -16,19 +16,25 @@
 package org.onehippo.forge.camel.demo.rest.services;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+//import java.util.Base64;
 import java.util.List;
 
 import javax.ws.rs.Path;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
+//import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
+//import org.apache.http.impl.auth.BasicScheme;
 import org.onehippo.forge.camel.demo.beans.BaseHippoDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,6 +65,10 @@ public class ElasticSearchRestUpdateResource extends AbstractRestUpdateResource 
      */
     public static final String TYPE_PROP = "_type";
 
+	//private static final String DEFAULT_USER = "elastic";
+
+	//private static final String DEFAULT_PASS = "metal123";
+
     /**
      * Default Index name.
      * <p>
@@ -74,7 +84,16 @@ public class ElasticSearchRestUpdateResource extends AbstractRestUpdateResource 
      * </p>
      */
     private String defaultTypeName = "page";
-
+    /**
+     * Username for basic authentication with Elasticsearch.
+     *
+     */
+    private String defaultUserName = "elastic";
+    /**
+     * Password for basic authentication with Elasticsearch.
+     *
+     */
+    private String defaultPassword = "TRYME";
     /**
      * Returns default index name.
      * @return
@@ -172,10 +191,13 @@ public class ElasticSearchRestUpdateResource extends AbstractRestUpdateResource 
         if (INDEX_ACTION.equals(action)) {
             request = new HttpPut(getBaseUrl() + "/" + indexTypePath + "/" + payload.get("id"));
             request.setHeader("Content-Type", "application/json; charset=UTF-8");
+            request.setHeader(HttpHeaders.AUTHORIZATION, getAuthHeaderVal());
+
             HttpEntity entity = new StringEntity(payload.toString(), "UTF-8");
             ((HttpPut) request).setEntity(entity);
         } else if (DELETE_ACTION.equals(action)) {
             request = new HttpDelete(getBaseUrl() + "/" + indexTypePath + "/" + payload.get("id"));
+            request.setHeader(HttpHeaders.AUTHORIZATION, getAuthHeaderVal());
         }
 
         return request;
@@ -202,4 +224,44 @@ public class ElasticSearchRestUpdateResource extends AbstractRestUpdateResource 
 
         return StringUtils.join(tokens, "/");
     }
+    /**
+     * Prepares base64 encoded standard authorization header value for basic HTTP authentication.
+     * Username and Password are pickedup from bean properties
+     *
+     * @return Base64 encoded authorization header value.
+     */
+    private String getAuthHeaderVal() {
+        String auth = getDefaultUserName() + ":" + getDefaultPassword();
+        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("ISO-8859-1")));
+        String authHeader = "Basic " + new String(encodedAuth);
+        return authHeader;
+    }
+
+	/**
+	 * @return the defaultUserName
+	 */
+	protected String getDefaultUserName() {
+		return defaultUserName;
+	}
+
+	/**
+	 * @param defaultUserName the defaultUserName to set
+	 */
+	protected void setDefaultUserName(String defaultUserName) {
+		this.defaultUserName = defaultUserName;
+	}
+
+	/**
+	 * @return the defaultPassword
+	 */
+	protected String getDefaultPassword() {
+		return defaultPassword;
+	}
+
+	/**
+	 * @param defaultPassword the defaultPassword to set
+	 */
+	protected void setDefaultPassword(String defaultPassword) {
+		this.defaultPassword = defaultPassword;
+	}
 }
