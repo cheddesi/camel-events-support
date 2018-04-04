@@ -53,8 +53,8 @@
               <property name="baseUrl" value="https://192.168.99.100:9200" />
               <property name="defaultIndexName" value="pages" />
               <property name="defaultTypeName" value="page" />
-              <property name="defaultUserName" value="elastic"/>
-              <property name="defaultPassword" value="metal123"/>
+              <property name="defaultUserName" value="elastic" />
+              <property name="defaultPassword" value="metal123" />
             </bean>
           </constructor-arg>
         </bean>

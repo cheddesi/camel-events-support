@@ -125,6 +125,33 @@ public class ElasticSearchRestUpdateResource extends AbstractRestUpdateResource 
     public void setDefaultTypeName(String defaultTypeName) {
         this.defaultTypeName = defaultTypeName;
     }
+	/**
+	 * @return the defaultUserName
+	 */
+    public String getDefaultUserName() {
+		return defaultUserName;
+	}
+
+	/**
+	 * @param defaultUserName the defaultUserName to set
+	 */
+    public void setDefaultUserName(String defaultUserName) {
+		this.defaultUserName = defaultUserName;
+	}
+
+	/**
+	 * @return the defaultPassword
+	 */
+    public String getDefaultPassword() {
+		return defaultPassword;
+	}
+
+	/**
+	 * @param defaultPassword the defaultPassword to set
+	 */
+    public void setDefaultPassword(String defaultPassword) {
+		this.defaultPassword = defaultPassword;
+	}
 
     /**
      * Creates document addition JSON payload.
@@ -236,32 +263,4 @@ public class ElasticSearchRestUpdateResource extends AbstractRestUpdateResource 
         String authHeader = "Basic " + new String(encodedAuth);
         return authHeader;
     }
-
-	/**
-	 * @return the defaultUserName
-	 */
-	protected String getDefaultUserName() {
-		return defaultUserName;
-	}
-
-	/**
-	 * @param defaultUserName the defaultUserName to set
-	 */
-	protected void setDefaultUserName(String defaultUserName) {
-		this.defaultUserName = defaultUserName;
-	}
-
-	/**
-	 * @return the defaultPassword
-	 */
-	protected String getDefaultPassword() {
-		return defaultPassword;
-	}
-
-	/**
-	 * @param defaultPassword the defaultPassword to set
-	 */
-	protected void setDefaultPassword(String defaultPassword) {
-		this.defaultPassword = defaultPassword;
-	}
 }
