@@ -50,7 +50,9 @@
               <!--<property name="baseUrl" value="http://localhost:9200" />
               <property name="defaultIndexName" value="pages" />
               <property name="defaultTypeName" value="page" /> -->
-              <property name="baseUrl" value="https://192.168.99.100:9200" />
+              <!-- local app connecting to dockerized es
+              <property name="baseUrl" value="https://192.168.99.100:9200" /> -->
+              <property name="baseUrl" value="https://es01:9200" />
               <property name="defaultIndexName" value="pages" />
               <property name="defaultTypeName" value="page" />
               <property name="defaultUserName" value="elastic" />
